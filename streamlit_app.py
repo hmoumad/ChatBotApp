@@ -1,6 +1,7 @@
 import streamlit as st
 from langchain.llms import OpenAI
-import openai  # Make sure to import openai for error handling
+import openai
+import time
 
 st.title('🦜🔗 Quickstart App')
 
@@ -13,6 +14,9 @@ def generate_response(input_text):
         st.info(response)
     except openai.error.RateLimitError as e:
         st.error(f"Rate limit exceeded. Error details: {e}")
+        # Introduce a delay before retrying (adjust the sleep duration as needed)
+        time.sleep(60)
+        generate_response(input_text)
     except Exception as e:
         st.error(f"An unexpected error occurred: {e}")
 
